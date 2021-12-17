@@ -1,19 +1,58 @@
-<html>
-    <head>
-        <title>eelテスト</title>
-        <link rel="stylesheet" href="./style.css">
-    </head>
-    <body>
-        <h2>eelテスト</h2>
-        <script type="text/javascript" src="./eel.js"></script>
-        <script>
-            search.addEventListener('click', () => {
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+    <title>検索アプリ</title>
+  </head>
+  <body>
+    <div class="title text-center my-3">
+        <h2>検索アプリ</h2>
+    </div>
+    <div class="contents-wrapper col-11 mx-auto mt-4">
+        <div class="mb-2">
+            保存先　　：<input type="text" class="serch_text" id="source_url">
+        </div>
+        <div class="mb-4 d-flex align-items-center">
+            検索ワード：<input type="text" class="serch_text" id="word_serch">
+            <button type="button" class="btn btn-outline-primary btn-sm ml-2" id="btn_serch" onclick="check_input()">検索</button>
+        </div>
+        <div class="serch-result">
+            <h3>検索結果</h3>
+        <textarea class="textarea_serch" id="result_serch"></textarea>
+        </div>    
+    </div>
 
-            })
+    <script type="text/javascript" src="./eel.js"></script>
+    <script>
+        function check_input() {
+            var mydiv = document.getElementById("word_serch");
+            var sava_url = document.getElementById("save_url");
+            
+            /* 入力チェック */
+            if (mydiv.value == "") {
+                    alert("検索ワードを入力してください。")
+            } else {
+                async function run() {
+                    let val = await eel.kimetsu_search(mydiv.value, source_url.value)();
+                    result_serch.value += val;
+                    result_serch.value += "\n";
+                }
+                run();
+            }                
+        }
 
-            eel.expose(view_log_js)
-            function view_log_js(text){
-            }
-        </script>
-    </body>
+        eel.expose(view_log_js)
+        function view_log_js(text){
+        }
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
 </html>
